@@ -20,11 +20,13 @@ public:
     virtual void invite(class Inviter &host);
 
     PhysicalObject* addObject(PhysicalObject *newObj);
+    PhysicalForce* addForce(PhysicalForce *newForce);
 
     void refreshWorld(double dt);
 
 private:
     std::list<PhysicalObject*> objects;
+    std::list<PhysicalForce*> forces;
 };
 
 #endif // WORLDENGINE_H

@@ -1,5 +1,7 @@
 #include "painterwidget.h"
 
+#include "physics_engine/ropeforce.h"
+
 #include <iostream>
 
 PainterWidget::PainterWidget(WorldEngine *setWorld)
@@ -40,6 +42,22 @@ void PainterWidget::visit(class PhysicalObject &guest)
 
     qreal circleRadius = 10;
     painter->drawEllipse(QRectF(-circleRadius, -circleRadius, circleRadius*2, circleRadius*2));
+
+    painter->restore();
+}
+
+void PainterWidget::visit(class RopeForce &guest)
+{
+    QPen pen(Qt::black, 3, Qt::SolidLine);
+
+    Vector3 pos1 = guest.getFirst()->position();
+    Vector3 pos2 = guest.getSecond()->position() -pos1;
+
+    painter->save();
+    painter->setPen(pen);
+    painter->translate(pos1.x(), pos1.y());
+
+    painter->drawLine(QPointF(0, 0), QPointF(pos2.x(), pos2.y()));
 
     painter->restore();
 }

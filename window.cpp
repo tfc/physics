@@ -23,15 +23,26 @@ Window::Window()
 
     PhysicalObject *mass1 = world.addObject(new StaticObject(-200, -180));
     PhysicalObject *mass2;
+    PhysicalObject *mass3 = world.addObject(new StaticObject(-200, -80));
+    PhysicalObject *mass4;
     for (int i=1; i < 10; i++) {
         mass2 = world.addObject(new PhysicalObject(50, -200+i*40, -180));
-        new RopeForce(10, 100, 20, mass1, mass2);
+        world.addForce(new RopeForce(10, 100, 20, mass1, mass2));
         new GravitationForce(9.81, 0, 1, 0, mass2);
+        mass4 = world.addObject(new PhysicalObject(50, -200+i*40, -80));
+        world.addForce(new RopeForce(10, 100, 20, mass3, mass4));
+        new GravitationForce(9.81, 0, 1, 0, mass4);
+
+        world.addForce(new RopeForce(100, 100, 20, mass2, mass4));
+
         mass1 = mass2;
+        mass3 = mass4;
     }
 
     mass2 = world.addObject(new StaticObject(200, -180));
-    new RopeForce(10, 100, 10, mass1, mass2);
+    world.addForce(new RopeForce(10, 100, 10, mass1, mass2));
+    mass4 = world.addObject(new StaticObject(200, -80));
+    world.addForce(new RopeForce(10, 100, 10, mass3, mass4));
 
 	QGridLayout *layout = new QGridLayout;
 	layout->addWidget(native, 0, 0);

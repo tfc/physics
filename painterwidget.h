@@ -23,7 +23,7 @@ public:
     virtual void paint(QPaintEvent *event);
 
     virtual void visit(class PhysicalObject &guest);
-    virtual void visit(class PhysicalForce &) {}
+    virtual void visit(class RopeForce &guest);
 
 protected:
     QPainter *painter;

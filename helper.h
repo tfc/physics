@@ -5,7 +5,10 @@
 #include <QFont>
 #include <QPen>
 
-#include "physicalobject.h"
+#include "physics_engine/worldengine.h"
+#include "physics_engine/physicalobject.h"
+
+#include "physics_engine/inviter.h"
 
 QT_BEGIN_NAMESPACE
 class QPainter;
@@ -15,18 +18,21 @@ QT_END_NAMESPACE
 class Helper
 {
 public:
-	Helper();
-	
+    Helper(WorldEngine *setWorld);
+
+    virtual void visit(PhysicalObject* guest);
+
 public:
 	void paint(QPainter *painter, QPaintEvent *event, double elapsed);
-	void recalculate();
 	
 private:
 	QBrush background;
 	QBrush circleBrush;
 	QFont textFont;
 	QPen circlePen;
-	QPen textPen;
+    QPen textPen;
+
+    WorldEngine *world;
 };
 
 #endif

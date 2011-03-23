@@ -3,12 +3,14 @@
 #include "helper.h"
 
 
-GLWidget::GLWidget(Helper *helper, QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), helper(helper)
+GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
+    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), PainterWidget(world)
 {
     elapsed = 0;
     setFixedSize(400, 400);
     setAutoFillBackground(false);
+
+    painter = new QPainter();
 }
 
 
@@ -21,10 +23,9 @@ void GLWidget::animate()
 
 void GLWidget::paintEvent(QPaintEvent *event)
 {
-    QPainter painter;
-    painter.begin(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    helper->paint(&painter, event, elapsed);
-    painter.end();
+    painter->begin(this);
+    painter->setRenderHint(QPainter::Antialiasing);
+    paint(event, elapsed);
+    painter->end();
 }
 

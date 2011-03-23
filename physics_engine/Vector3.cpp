@@ -7,7 +7,7 @@
  *
  */
 
-#include "Vector3.h"
+#include "physics_engine/Vector3.h"
 #include <math.h>
 #include <iostream>
 
@@ -148,6 +148,13 @@ void Vector3::normalize()
 double Vector3::length() const
 {
     return sqrt(val.x*val.x +
+                val.y*val.y +
+                val.z*val.z);
+}
+
+double Vector3::lengthSquare() const
+{
+    return     (val.x*val.x +
                 val.y*val.y +
                 val.z*val.z);
 }

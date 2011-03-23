@@ -1,12 +1,3 @@
-/*
- *  Vector3.h
- *  GameBase
- *
- *  Created by Administrator on 12.10.10.
- *  Copyright 2010 Kristof Niederholtmeyer. All rights reserved.
- *
- */
-
 #ifndef GB_VECTOR_H
 #define GB_VECTOR_H
 
@@ -42,6 +33,7 @@ public:
 	
 	void normalize();
 	double length() const;
+    double lengthSquare() const;
     double angle() const;
 	
 	// publicly available coordinates

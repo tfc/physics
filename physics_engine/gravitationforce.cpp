@@ -1,4 +1,4 @@
-#include "gravitationforce.h"
+#include "physics_engine/gravitationforce.h"
 
 GravitationForce::GravitationForce(double gravConst, double xdir, double ydir, double zdir, PhysicalObject *obj) :
     obj(obj), g(gravConst), gVec(xdir, ydir, zdir)

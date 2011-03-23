@@ -3,11 +3,12 @@
 #include "helper.h"
 
 
-Widget::Widget(Helper *helper, QWidget *parent)
-    : QWidget(parent), helper(helper)
+Widget::Widget(WorldEngine *world, QWidget *parent)
+    : QWidget(parent), PainterWidget(world)
 {
-    elapsed = 0;
     setFixedSize(400, 400);
+
+    painter = new QPainter();
 }
 
 void Widget::animate()
@@ -18,9 +19,8 @@ void Widget::animate()
 
 void Widget::paintEvent(QPaintEvent *event)
 {
-    QPainter painter;
-    painter.begin(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    helper->paint(&painter, event, elapsed);
-    painter.end();
+    painter->begin(this);
+    painter->setRenderHint(QPainter::Antialiasing);
+    paint(event, elapsed);
+    painter->end();
 }

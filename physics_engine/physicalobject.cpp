@@ -1,5 +1,5 @@
-#include "physicalobject.h"
-#include "physicalforce.h"
+#include "physics_engine/physicalobject.h"
+#include "physics_engine/physicalforce.h"
 
 PhysicalObject::PhysicalObject(double _mass, double x, double y) :
     s(x, y, 0), ts(x, y, 0), mass(_mass), forces()

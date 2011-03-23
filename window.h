@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "helper.h"
+#include "physics_engine/worldengine.h"
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -17,8 +18,11 @@ class Window : public QWidget
 public:
     Window();
 
+public slots:
+    void refreshWorld();
+
 private:
-    Helper helper;
+    WorldEngine world;
 };
 
 #endif

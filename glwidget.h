@@ -2,19 +2,19 @@
 #define GLWIDGET_H
 
 #include <QGLWidget>
+#include "painterwidget.h"
 
-class Helper;
 QT_BEGIN_NAMESPACE
 class QPaintEvent;
 class QWidget;
 QT_END_NAMESPACE
 
-class GLWidget : public QGLWidget
+class GLWidget : public QGLWidget, public PainterWidget
 {
     Q_OBJECT
 
 public:
-    GLWidget(Helper *helper, QWidget *parent);
+    GLWidget(WorldEngine *setWorld, QWidget *parent);
 
 public slots:
     void animate();
@@ -23,8 +23,6 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
-    Helper *helper;
-    int elapsed;
 };
 
 #endif

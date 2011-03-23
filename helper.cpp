@@ -1,11 +1,6 @@
 #include <QtGui>
 #include "helper.h"
 
-#define SPRINGCONST 150
-#define FRICTION SPRINGCONST*2/3
-#define MASS 5
-#define DT 0.02 // Unstable for values bigger than 0.6
-
 Helper::Helper()
 {
 	QLinearGradient gradient(QPointF(50, -20), QPointF(80, 20));

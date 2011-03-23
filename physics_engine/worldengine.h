@@ -17,7 +17,7 @@ class WorldEngine : public Invitee
 public:
     WorldEngine();
 
-    virtual void invite(Inviter *host);
+    virtual void invite(class Inviter &host);
 
     PhysicalObject* addObject(PhysicalObject *newObj);
 

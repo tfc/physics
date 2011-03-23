@@ -20,10 +20,10 @@ class PainterWidget : public Inviter
 public:
     PainterWidget(WorldEngine *setWorld);
 
-    virtual void paint(QPaintEvent *event, double elapsed);
+    virtual void paint(QPaintEvent *event);
 
-    virtual void visit(Invitee* guest);
-    virtual void paint(PhysicalObject* guest);
+    virtual void visit(class PhysicalObject &guest);
+    virtual void visit(class PhysicalForce &) {}
 
 protected:
     QPainter *painter;

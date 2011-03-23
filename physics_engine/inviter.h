@@ -8,7 +8,8 @@ class Inviter
 public:
     Inviter();
 
-    virtual void visit(Invitee* guest) = 0;
+    virtual void visit(class PhysicalObject &) {}
+    virtual void visit(class PhysicalForce &) {}
 };
 
 #endif // INVITER_H

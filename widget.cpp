@@ -1,6 +1,5 @@
 #include <QtGui>
 #include "widget.h"
-#include "helper.h"
 
 
 Widget::Widget(WorldEngine *world, QWidget *parent)
@@ -21,6 +20,6 @@ void Widget::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
     painter->setRenderHint(QPainter::Antialiasing);
-    paint(event, elapsed);
+    paint(event);
     painter->end();
 }

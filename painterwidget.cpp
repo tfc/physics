@@ -17,43 +17,21 @@ PainterWidget::PainterWidget(WorldEngine *setWorld)
     textFont.setPixelSize(50);
 }
 
-void PainterWidget::paint(QPaintEvent *event, double elapsed)
+void PainterWidget::paint(QPaintEvent *event)
 {
     painter->fillRect(event->rect(), background);
     painter->translate(200, 200);
 
-/*
-    painter->save();
-    painter->setBrush(circleBrush);
-    painter->setPen(circlePen);
-    painter->rotate(elapsed * 0.030);
-
-    qreal r = elapsed/1000.0;
-    int n = 30;
-    for (int i = 0; i < n; ++i) {
-        painter->rotate(30);
-        qreal radius = 0 + 240.0*((i+r)/n);
-        qreal circleRadius = 1 + ((i+r)/n)*40;
-        painter->drawEllipse(QRectF(radius, -circleRadius, circleRadius*2, circleRadius*2));
-    }
-    painter->restore();
-    */
-
-    world->invite(this);
+    world->invite(*this);
 
     painter->setPen(textPen);
     painter->setFont(textFont);
     painter->drawText(QRect(-50, -50, 100, 100), Qt::AlignCenter, "Qt");
 }
 
-void PainterWidget::visit(Invitee* guest)
+void PainterWidget::visit(class PhysicalObject &guest)
 {
-    paint((PhysicalObject*)guest);
-}
-
-void PainterWidget::paint(PhysicalObject* guest)
-{
-    Vector3 pos = guest->position();
+    Vector3 pos = guest.position();
 
     painter->save();
     painter->translate(pos.x(), pos.y());

@@ -3,7 +3,6 @@
 
 #include <QWidget>
 
-#include "helper.h"
 #include "physics_engine/worldengine.h"
 
 QT_BEGIN_NAMESPACE

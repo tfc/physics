@@ -16,6 +16,8 @@ public:
     virtual void refreshState(double dt);
     virtual void activateChange();
 
+    virtual void invite(class Inviter &host) { host.visit(*this); }
+
     void addForce(PhysicalForce* newForce);
     void removeForce(PhysicalForce* force);
 

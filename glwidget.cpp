@@ -1,6 +1,5 @@
 #include <QtGui>
 #include "glwidget.h"
-#include "helper.h"
 
 
 GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
@@ -25,7 +24,7 @@ void GLWidget::paintEvent(QPaintEvent *event)
 {
     painter->begin(this);
     painter->setRenderHint(QPainter::Antialiasing);
-    paint(event, elapsed);
+    paint(event);
     painter->end();
 }
 

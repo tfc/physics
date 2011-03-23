@@ -8,7 +8,7 @@ class Invitee
 public:
     Invitee();
 
-    virtual void invite(Inviter* host) { host->visit(this); }
+    virtual void invite(class Inviter &host) = 0;
 };
 
 #endif // INVITEE_H

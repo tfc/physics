@@ -23,7 +23,7 @@ void WorldEngine::refreshWorld(double dt)
         (*it)->activateChange();
 }
 
-void WorldEngine::invite(Inviter *host)
+void WorldEngine::invite(class Inviter &host)
 {
     for (std::list<PhysicalObject*>::iterator it = objects.begin();
     it != objects.end();

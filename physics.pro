@@ -1,9 +1,10 @@
 QT     += opengl
 
-TARGET  = 2dpainting
+TARGET  = physics
 TEMPLATE = app
 
 HEADERS = \
+    painterwidget.h \
     glwidget.h \
     widget.h \
     window.h \
@@ -16,9 +17,9 @@ HEADERS = \
     physics_engine/worldengine.h \
     physics_engine/inviter.h \
     physics_engine/invitee.h \
-    painterwidget.h \
     physics_engine/staticobject.h
 SOURCES = \
+    painterwidget.cpp \
     glwidget.cpp \
     main.cpp \
     widget.cpp \
@@ -31,5 +32,4 @@ SOURCES = \
     physics_engine/worldengine.cpp \
     physics_engine/inviter.cpp \
     physics_engine/invitee.cpp \
-    painterwidget.cpp \
     physics_engine/staticobject.cpp

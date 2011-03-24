@@ -42,10 +42,14 @@ private:
     Vector3 v;
     Vector3 a;
 
+    // omega for angle
+    Vector3 o;
+
     // Temp values
     Vector3 ts;
     Vector3 tv;
     Vector3 ta;
+    Vector3 to;
 
     double mass;
 

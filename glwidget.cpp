@@ -45,7 +45,6 @@
 GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), PainterWidget(world)
 {
-    elapsed = 0;
     setFixedSize(400, 400);
     setAutoFillBackground(false);
 
@@ -55,7 +54,6 @@ GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
 
 void GLWidget::animate()
 {
-    elapsed = (elapsed + qobject_cast<QTimer*>(sender())->interval()) % 1000;
     repaint();
 }
 

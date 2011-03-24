@@ -68,8 +68,6 @@ public:
 protected:
     QPainter *painter;
 
-    int elapsed;
-
 private:
     QBrush background;
     QBrush circleBrush;

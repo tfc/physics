@@ -52,7 +52,6 @@ Widget::Widget(WorldEngine *world, QWidget *parent)
 
 void Widget::animate()
 {
-    elapsed = (elapsed + qobject_cast<QTimer*>(sender())->interval()) % 1000;
     repaint();
 }
 

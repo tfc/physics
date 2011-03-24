@@ -45,7 +45,7 @@
 #include <iostream>
 
 PainterWidget::PainterWidget(WorldEngine *setWorld)
-    : elapsed(0), world(setWorld)
+    : world(setWorld)
 {
     QLinearGradient backGradient(0, 0, 0, 400);
     backGradient.setColorAt(1.0, Qt::white);

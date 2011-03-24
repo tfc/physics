@@ -81,11 +81,13 @@ void PainterWidget::visit(class PhysicalObject &guest)
 
     painter->save();
     painter->translate(pos.x(), pos.y());
+    painter->rotate(guest.angle().val.z/3.14*180);
     painter->setBrush(circleBrush);
     painter->setPen(circlePen);
 
     qreal circleRadius = 10;
     painter->drawEllipse(QRectF(-circleRadius, -circleRadius, circleRadius*2, circleRadius*2));
+    painter->drawLine(0, 0, 0, 20);
 
     painter->restore();
 }
@@ -94,8 +96,8 @@ void PainterWidget::visit(class RopeForce &guest)
 {
     QPen pen(Qt::darkGreen, 3, Qt::SolidLine);
 
-    Vector3 pos1 = guest.getFirst()->position();
-    Vector3 pos2 = guest.getSecond()->position() -pos1;
+    Vector3 pos1 = guest.getRopeHookPosA();
+    Vector3 pos2 = guest.getRopeHookPosB() -pos1;
 
     painter->save();
     painter->setPen(pen);

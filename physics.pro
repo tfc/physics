@@ -1,5 +1,4 @@
 QT     += opengl
-
 TARGET  = physics
 TEMPLATE = app
 
@@ -18,6 +17,7 @@ HEADERS = \
     physics_engine/inviter.h \
     physics_engine/invitee.h \
     physics_engine/staticobject.h
+
 SOURCES = \
     painterwidget.cpp \
     glwidget.cpp \

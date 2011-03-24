@@ -24,10 +24,14 @@ public:
     Vector3 position() const { return s; }
     Vector3 speed() const { return v; }
     Vector3 accel() const { return a; }
+    Vector3 angle() const { return bs; }
+    Vector3 angleSpeed() const { return bv; }
     Vector3 tposition() const { return ts; }
     Vector3 tspeed() const { return tv; }
     Vector3 taccel() const { return ta; }
+    Vector3 tangle() const { return tbs; }
     double getMass() const { return mass; }
+    double getMomInertia() const { return momInertia; }
 
 protected:
     void setPosition(double x, double y) {ts.val.x = x; ts.val.y=y;}
@@ -42,16 +46,22 @@ private:
     Vector3 v;
     Vector3 a;
 
-    // omega for angle
-    Vector3 o;
+    // angle (b like "beta")
+    Vector3 bs;
+    Vector3 bv;
+    Vector3 ba;
 
     // Temp values
     Vector3 ts;
     Vector3 tv;
     Vector3 ta;
-    Vector3 to;
+
+    Vector3 tbs;
+    Vector3 tbv;
+    Vector3 tba;
 
     double mass;
+    double momInertia;
 
     std::list<PhysicalForce*> forces;
 };

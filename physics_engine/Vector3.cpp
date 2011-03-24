@@ -16,15 +16,18 @@ Vector3::Vector3()
 	val.x = 0.0f;
 	val.y = 0.0f;
 	val.z = 0.0f;
+    val.dummy = 0.0f;
 }
 
 Vector3::Vector3(const double xCoordinate,
 				   const double yCoordinate,
-				   const double zCoordinate)
+                   const double zCoordinate,
+                   const double dum)
 {
 	val.x = xCoordinate;
 	val.y = yCoordinate;
 	val.z = zCoordinate;
+    val.dummy = dum;
 }
 
 Vector3::Vector3(const Vector3& vector)
@@ -32,6 +35,7 @@ Vector3::Vector3(const Vector3& vector)
 	val.x = vector.val.x;
 	val.y = vector.val.y;
 	val.z = vector.val.z;
+    val.dummy = vector.val.dummy;
 }
 
 Vector3::~Vector3()
@@ -54,11 +58,17 @@ double Vector3::z() const
 	return val.z;
 }
 
+Vector3 Vector3::rotatedZ(const double angle) const
+{
+    return Vector3(val.x*cos(angle) -val.y*sin(angle), val.x*sin(angle) +val.y*cos(angle), val.z);
+}
+
 Vector3& Vector3::operator = (const Vector3& vector)
 {
 	val.x = vector.val.x;
 	val.y = vector.val.y;
 	val.z = vector.val.z;
+    val.dummy = vector.val.dummy;
 	
 	return *this;
 }
@@ -66,8 +76,9 @@ Vector3& Vector3::operator = (const Vector3& vector)
 Vector3 Vector3::operator * (const double scalar)
 {
 	Vector3 newVector(val.x * scalar,
-					   val.y * scalar,
-					   val.z * scalar);
+                      val.y * scalar,
+                      val.z * scalar,
+                      val.dummy * scalar);
 	return newVector;
 }
 
@@ -81,13 +92,14 @@ Vector3 Vector3::operator / (const double scalar)
 {
 	Vector3 newVector(val.x / scalar,
 					   val.y / scalar,
-					   val.z / scalar);
+                       val.z / scalar,
+                       val.dummy / scalar);
 	return newVector;
 }
 
 Vector3 Vector3::operator + (const Vector3& vector)
 {
-	Vector3 newVector(val.x + vector.val.x, val.y + vector.val.y, val.z + vector.val.z);
+    Vector3 newVector(val.x + vector.val.x, val.y + vector.val.y, val.z + vector.val.z, val.dummy +vector.val.dummy);
 	return newVector;
 }
 
@@ -102,6 +114,7 @@ Vector3& Vector3::operator += (const Vector3& vector)
 	val.x += vector.val.x;
 	val.y += vector.val.y;
 	val.z += vector.val.z;
+    val.dummy += vector.val.dummy;
 	
 	return *this;
 }
@@ -111,7 +124,8 @@ Vector3& Vector3::operator -= (const Vector3& vector)
 	val.x -= vector.val.x;
 	val.y -= vector.val.y;
 	val.z -= vector.val.z;
-	
+    val.dummy -= vector.val.dummy;
+
 	return *this;
 }
 

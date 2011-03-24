@@ -37,12 +37,8 @@ void WorldEngine::refreshWorld(double dt)
 
 void WorldEngine::invite(class Inviter &host)
 {
-    for (std::list<PhysicalForce*>::iterator it = forces.begin();
-    it != forces.end();
-    ++it)
+    for (std::list<PhysicalForce*>::iterator it = forces.begin(); it != forces.end(); ++it)
         (*it)->invite(host);
-    for (std::list<PhysicalObject*>::iterator it = objects.begin();
-    it != objects.end();
-    ++it)
+    for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
         (*it)->invite(host);
 }

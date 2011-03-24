@@ -1,0 +1,5 @@
+This project is my small attempt to write a 2D-physics engine.
+
+The physics engine itself is isolated from any GUI-code and tries to be generic.
+
+GUI code is taken from Qt's developer examples.

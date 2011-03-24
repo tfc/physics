@@ -33,3 +33,6 @@ SOURCES = \
     physics_engine/inviter.cpp \
     physics_engine/invitee.cpp \
     physics_engine/staticobject.cpp
+
+OTHER_FILES += \
+    README

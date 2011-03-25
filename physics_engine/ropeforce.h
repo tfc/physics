@@ -1,7 +1,8 @@
 #ifndef ROPEFORCE_H
 #define ROPEFORCE_H
 
-#include "physics_engine/physicalforce.h"
+#include "physicalforce.h"
+
 class PhysicalObject;
 
 class RopeForce : public PhysicalForce

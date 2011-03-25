@@ -1,4 +1,4 @@
-#include "physics_engine/invitee.h"
+#include "invitee.h"
 
 Invitee::Invitee()
 {

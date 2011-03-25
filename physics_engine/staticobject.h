@@ -1,7 +1,7 @@
 #ifndef STATICOBJECT_H
 #define STATICOBJECT_H
 
-#include "physics_engine/physicalobject.h"
+#include "physicalobject.h"
 
 class StaticObject : public PhysicalObject
 {

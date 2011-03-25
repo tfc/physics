@@ -1,5 +1,5 @@
-#include "physics_engine/physicalobject.h"
-#include "physics_engine/physicalforce.h"
+#include "physicalobject.h"
+#include "physicalforce.h"
 
 #include <iostream>
 

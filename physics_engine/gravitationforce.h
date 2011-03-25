@@ -1,7 +1,7 @@
 #ifndef GRAVITATIONFORCE_H
 #define GRAVITATIONFORCE_H
 
-#include "physics_engine/physicalforce.h"
+#include "physicalforce.h"
 
 class PhysicalObject;
 

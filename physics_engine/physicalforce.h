@@ -1,8 +1,8 @@
 #ifndef PHYSICALFORCE_H
 #define PHYSICALFORCE_H
 
-#include "physics_engine/invitee.h"
-#include "physics_engine/physicalobject.h"
+#include "invitee.h"
+#include "physicalobject.h"
 
 class PhysicalForce : public Invitee
 {

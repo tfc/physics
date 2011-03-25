@@ -1,7 +1,7 @@
 #ifndef INVITEE_H
 #define INVITEE_H
 
-#include "physics_engine/inviter.h"
+#include "inviter.h"
 
 class Invitee
 {

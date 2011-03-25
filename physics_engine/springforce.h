@@ -1,7 +1,8 @@
 #ifndef SPRINGFORCE_H
 #define SPRINGFORCE_H
 
-#include "physics_engine/physicalforce.h"
+#include "physicalforce.h"
+
 class PhysicalObject;
 
 class SpringForce : public PhysicalForce

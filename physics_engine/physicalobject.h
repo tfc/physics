@@ -3,8 +3,8 @@
 
 #include <list>
 
-#include "physics_engine/invitee.h"
-#include "physics_engine/Vector3.h"
+#include "invitee.h"
+#include "Vector3.h"
 
 class PhysicalForce;
 

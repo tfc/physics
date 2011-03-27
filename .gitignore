@@ -4,3 +4,8 @@ build
 *.app
 Makefile
 *.xcodeproj
+/moc_window.cpp
+/moc_glwidget.cpp
+/moc_widget.cpp
+.cproject
+.project

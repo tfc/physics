@@ -137,6 +137,14 @@ double Vector3::operator * (const Vector3& vector)
       val.z * vector.val.z);
 }
 
+Vector3 Vector3::operator ^ (const Vector3& vector)
+{
+  return Vector3(
+      val.y*vector.val.z -val.z*vector.val.y,
+      -val.x*vector.val.z +val.z*vector.val.x,
+      val.x*vector.val.y -val.y*vector.val.x);
+}
+
 bool Vector3::operator == (const Vector3& vector)
 {
   return (val.x == vector.val.x &&
@@ -168,7 +176,7 @@ double Vector3::length() const
 
 double Vector3::lengthSquare() const
 {
-  return     (val.x*val.x +
+  return (val.x*val.x +
       val.y*val.y +
       val.z*val.z);
 }

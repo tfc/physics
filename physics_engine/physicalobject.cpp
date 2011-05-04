@@ -25,8 +25,8 @@ void PhysicalObject::refreshState(double dt)
     ts = s +v*dt;
     tv = v +Vector3(mFinal.val.x, mFinal.val.y)*dt;
 
-    tbs = bs +bv*dt;
-    tbv = bv +Vector3(0, 0, mFinal.val.dummy)*dt;
+    setAngle((bs+bv*dt).val.z);
+    setAngleSpeed((bv +Vector3(0, 0, mFinal.val.dummy)*dt).val.z);
 }
 
 void PhysicalObject::activateChange()
@@ -47,4 +47,21 @@ void PhysicalObject::addForce(PhysicalForce* newForce)
 void PhysicalObject::removeForce(PhysicalForce* force)
 {
     forces.remove(force);
+}
+
+
+#define PI 3.14
+void PhysicalObject::setAngle(double angle)
+{
+  while (angle >= PI) angle -= 2*PI;
+  while (angle <  PI) angle += 2*PI;
+  tbs = Vector3(0, 0, angle);
+}
+void PhysicalObject::setAngleSpeed(double angleSpeed)
+{
+  tbv = Vector3(0, 0, angleSpeed);
+}
+void PhysicalObject::setAngleAccel(double angleAccel)
+{
+  tba = Vector3(0, 0, angleAccel);
 }

@@ -27,22 +27,26 @@ Vector3 RopeForce::approxM(PhysicalObject *caller) const
     Vector3 myOffset = (caller == obA) ? offsetA.rotatedZ(obA->angle().val.z) : offsetB.rotatedZ(obB->angle().val.z);
 
     Vector3 ds = getRopeHookPosB() -getRopeHookPosA();
+    Vector3 dsm = ds;
     double skalarDiff = ds.length() -len;
 
     // Don't push, only pull!
     if (skalarDiff <= 0) return Vector3();
 
     Vector3 dv = obB->tspeed()-obA->tspeed();
+    Vector3 dvm = dv;
 
-    double angle = ds.angle();
+    dsm.normalize();
+    dvm.normalize();
 
-    m.val.x = (sprConst *skalarDiff *cos(angle) +friction*dv.val.x)/mass;
-    m.val.y = (sprConst *skalarDiff *sin(angle) +friction*dv.val.y)/mass;
-    m.val.dummy = sprConst*(myOffset.val.x *skalarDiff*sin(angle) -myOffset.val.y*skalarDiff*cos(angle))/inert;
+    m = (dsm * (sprConst * skalarDiff))/mass +(dsm * ((dv*ds)/ds.length()))*friction;
+
+    // m*mass = Force at offset position
+    // r x F = torque
+    // torque / inert = angleAcceleration
+    m.val.dummy = (myOffset ^ ((m)*mass/m.length())).val.z/inert;
 
     if (caller != obA) m = m*-1;
-
-    m.val.dummy -= friction*0.1*caller->angleSpeed().val.z;
 
     return m;
 }

@@ -16,6 +16,8 @@ Vector3 SpringForce::approxM(PhysicalObject *caller) const
     double mass = caller->getMass();
 
     Vector3 ds = obB->tposition()-obA->tposition();
+    Vector3 dsm = ds;
+    dsm.normalize();
     Vector3 dv = obB->tspeed()-obA->tspeed();
 
     double angle = ds.angle();
@@ -23,8 +25,12 @@ Vector3 SpringForce::approxM(PhysicalObject *caller) const
 
     double skalarDiff = ds.length() -len;
 
-    m.val.x = (sprConst * skalarDiff *cos(angle) +friction*dv.val.x)/mass;
-    m.val.y = (sprConst * skalarDiff *sin(angle) +friction*dv.val.y)/mass;
+    Vector3 ang(cos(angle), sin(angle), 0);
+
+    m = (ang * (sprConst * skalarDiff) +dv *(dv*dsm*friction))/mass;
+
+    //m.val.x = (sprConst * skalarDiff *cos(angle) +friction*dv.val.x)/mass;
+    //m.val.y = (sprConst * skalarDiff *sin(angle) +friction*dv.val.y)/mass;
 
     if (caller != obA) m = m*-1;
     return m;

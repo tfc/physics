@@ -33,13 +33,15 @@ public:
     double getMass() const { return mass; }
     double getMomInertia() const { return momInertia; }
 
-protected:
     void setPosition(double x, double y) {ts.val.x = x; ts.val.y=y;}
     void setSpeed(double x, double y) {tv.val.x = x; tv.val.y=y;}
     void setAccel(double x, double y) {ta.val.x = x; ta.val.y=y;}
     void setPosition(Vector3 newPos) {ts = newPos;}
     void setSpeed(Vector3 newSpeed) {tv = newSpeed;}
     void setAccel(Vector3 newAccel) {ta = newAccel;}
+    void setAngle(double angle);
+    void setAngleSpeed(double angleSpeed);
+    void setAngleAccel(double angleAccel);
 
 private:
     Vector3 s;

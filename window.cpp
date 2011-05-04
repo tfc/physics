@@ -51,7 +51,8 @@
 
 #define DT 0.01
 #define ROPEFRICTION 100
-#define SPRCONST 100
+#define SPRCONST 10
+#define MASS 5
 
 Window::Window()
 : QWidget()
@@ -85,10 +86,10 @@ Window::Window()
   PhysicalObject *mass3 = world.addObject(new StaticObject(-200, -80));
   PhysicalObject *mass4;
   for (int i=1; i < 10; i++) {
-    mass2 = world.addObject(new PhysicalObject(50, -200+i*40, -180));
+    mass2 = world.addObject(new PhysicalObject(MASS, -200+i*40, -180));
     world.addForce(new RopeForce(10, SPRCONST, ROPEFRICTION, mass1, mass2, 10, 0, -10, 0));
     new GravitationForce(9.81, 0, 1, 0, mass2);
-    mass4 = world.addObject(new PhysicalObject(50, -200+i*40, -80));
+    mass4 = world.addObject(new PhysicalObject(MASS, -200+i*40, -80));
     world.addForce(new RopeForce(10, SPRCONST, ROPEFRICTION, mass3, mass4, 10, 0, -10, 0));
     new GravitationForce(9.81, 0, 1, 0, mass4);
 
@@ -108,9 +109,9 @@ Window::Window()
   //  world.addObject(new StaticObject(i*20 -200, i*5+100));
   //}
 
-  mass2 = world.addObject(new StaticObject(-130, 80));
-  mass1 = world.addObject(new PhysicalObject(10, 0, 80));
-  world.addForce(new RopeForce(60, SPRCONST, ROPEFRICTION, mass1, mass2, -10, 0, 0, 10));
+  mass2 = world.addObject(new StaticObject(-100, 80));
+  mass1 = world.addObject(new PhysicalObject(MASS, 0, 80));
+  world.addForce(new RopeForce(50, SPRCONST, ROPEFRICTION, mass2, mass1, 0, 0, -10, 0));
   world.addForce(new GravitationForce(9.81, 0, 1, 0, mass1));
 
   QGridLayout *layout = new QGridLayout;

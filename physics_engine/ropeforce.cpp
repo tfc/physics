@@ -39,14 +39,16 @@ Vector3 RopeForce::approxM(PhysicalObject *caller) const
     dsm.normalize();
     dvm.normalize();
 
-    m = (dsm * (sprConst * skalarDiff))/mass +(dsm * ((dv*ds)/ds.length()))*friction;
+    m = dsm*((sprConst * skalarDiff) +(dv*dsm)*friction)/mass;
 
     // m*mass = Force at offset position
     // r x F = torque
     // torque / inert = angleAcceleration
-    m.val.dummy = (myOffset ^ ((m)*mass/m.length())).val.z/inert;
+    m.val.dummy = (myOffset ^ m*mass/inert).val.z;
 
     if (caller != obA) m = m*-1;
+
+    m.val.dummy +=  -caller->angleSpeed().val.z*0.003*friction;
 
     return m;
 }

@@ -50,9 +50,9 @@
 #include <iostream>
 
 #define DT 0.01
-#define ROPEFRICTION 100
-#define SPRCONST 10
-#define MASS 5
+#define ROPEFRICTION 300
+#define SPRCONST 800
+#define MASS 50
 
 Window::Window()
 : QWidget()
@@ -85,12 +85,12 @@ Window::Window()
   PhysicalObject *mass2;
   PhysicalObject *mass3 = world.addObject(new StaticObject(-200, -80));
   PhysicalObject *mass4;
-  for (int i=1; i < 10; i++) {
-    mass2 = world.addObject(new PhysicalObject(MASS, -200+i*40, -180));
-    world.addForce(new RopeForce(10, SPRCONST, ROPEFRICTION, mass1, mass2, 10, 0, -10, 0));
+  for (int i=1; i < 20; i++) {
+    mass2 = world.addObject(new PhysicalObject(MASS, -200+i*20, -180));
+    world.addForce(new RopeForce(5, SPRCONST, ROPEFRICTION, mass1, mass2, 10, 0, -10, 0));
     new GravitationForce(9.81, 0, 1, 0, mass2);
-    mass4 = world.addObject(new PhysicalObject(MASS, -200+i*40, -80));
-    world.addForce(new RopeForce(10, SPRCONST, ROPEFRICTION, mass3, mass4, 10, 0, -10, 0));
+    mass4 = world.addObject(new PhysicalObject(MASS, -200+i*20, -80));
+    world.addForce(new RopeForce(5, SPRCONST, ROPEFRICTION, mass3, mass4, 10, 0, -10, 0));
     new GravitationForce(9.81, 0, 1, 0, mass4);
 
     world.addForce(new RopeForce(100, SPRCONST, ROPEFRICTION, mass2, mass4, 0, 10, 0, -10));
@@ -104,14 +104,14 @@ Window::Window()
   mass4 = world.addObject(new StaticObject(200, -80));
   world.addForce(new RopeForce(10, SPRCONST, ROPEFRICTION, mass3, mass4, 10, 0, -10, 0));
 
-  //for (int i=0; i < 40; i++) {
-  //  world.addObject(new StaticObject(i*20 -200, 0));
-  //  world.addObject(new StaticObject(i*20 -200, i*5+100));
-  //}
+  for (int i=0; i < 40; i++) {
+    //world.addObject(new StaticObject(i*20 -200, 0));
+    world.addObject(new StaticObject(i*20 -200, i*5+100));
+  }
 
   mass2 = world.addObject(new StaticObject(-100, 80));
-  mass1 = world.addObject(new PhysicalObject(MASS, 0, 80));
-  world.addForce(new RopeForce(50, SPRCONST, ROPEFRICTION, mass2, mass1, 0, 0, -10, 0));
+  mass1 = world.addObject(new PhysicalObject(MASS*5, -10, 80));
+  world.addForce(new RopeForce(50, SPRCONST, ROPEFRICTION, mass2, mass1, 0, 0, 0, -10));
   world.addForce(new GravitationForce(9.81, 0, 1, 0, mass1));
 
   QGridLayout *layout = new QGridLayout;

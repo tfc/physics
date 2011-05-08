@@ -1,5 +1,7 @@
 #include "worldengine.h"
 
+#include <math.h>
+
 WorldEngine::WorldEngine()
 {
 }
@@ -34,7 +36,6 @@ void WorldEngine::refreshWorld(double dt)
   for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); it++)
     (*it)->refreshState(dt);
 
-#if 0
   // Look for collisions and handle them
   for (std::list<PhysicalObject*>::iterator outerIt = objects.begin(); outerIt != objects.end(); outerIt++) {
     std::list<PhysicalObject*>::iterator innerIt = outerIt;
@@ -43,26 +44,12 @@ void WorldEngine::refreshWorld(double dt)
     for (; innerIt != objects.end(); innerIt++) {
       PhysicalObject *b = *innerIt;
 
-      double distance = (a->tposition()-b->tposition()).lengthSquare();
-      if (RADIUSSQR > distance) {
+      if (collisionOccured(*a, *b)) {
         // Colliding!
-        Vector3 vA = a->tspeed();
-        Vector3 vB = b->tspeed();
-        Vector3 vd = vA-vB;
-        double mA = a->getMass();
-        double mB = b->getMass();
-
-        //vA -= vd*(1+0.9)/(1+mA/mB);
-        //vB += vd*(1+0.9)/(1+mB/mA);
-        vA = (a->tspeed() *(mA -COLFRIC*mB) +b->tspeed()*(COLFRIC+1)*mB)/(mA+mB);
-        vB = (a->tspeed()*(COLFRIC+1)*mA +b->tspeed()*(mB -COLFRIC*mA))/(mA+mB);
-
-        a->setSpeed(vA);
-        b->setSpeed(vB);
+        applyImpulse(*a, *b);
       }
     }
   }
-#endif
 
   // Apply new states
   for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); it++)
@@ -75,4 +62,51 @@ void WorldEngine::invite(class Inviter &host)
     (*it)->invite(host);
   for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); ++it)
     (*it)->invite(host);
+}
+
+#define COL_TOLERANCE 0.5
+int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB)
+{
+  Vector3 d;
+  Vector3 v1, v2;
+  double r; // radius of both centers
+  double s; // distance of centers -radius of centers
+  double vRelNorm;
+
+  r = (obA.getRadius() +obB.getRadius());
+  d = obA.position() -obB.position();
+  s = d.length() -r;
+
+  d.normalize();
+  v1 = obA.speed();
+  v2 = obB.speed();
+
+  // Relative speed (normalized)
+  // = skalar product between relSpeed and normalized distance vector
+  vRelNorm = (v1 -v2) *d;
+
+  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.0)) {
+    return 1;
+  }
+  else if (s < -COL_TOLERANCE) {
+    return -1;
+  }
+
+  return 0;
+}
+
+#define COL_RESTITUTION 0.7
+void WorldEngine::applyImpulse(PhysicalObject &obA, PhysicalObject &obB)
+{
+  double j;
+  Vector3 colNormal = obA.position()-obB.position();
+  colNormal.normalize();
+  Vector3 relVelocity = obA.speed()-obB.speed();
+
+  j = ( -(1+COL_RESTITUTION) * (relVelocity * colNormal))
+      / ((colNormal*colNormal)
+         * (1/obA.getMass() + 1/obB.getMass()));
+
+  obA.setSpeed(obA.speed() +(colNormal*j)/obA.getMass());
+  obB.setSpeed(obB.speed() -(colNormal*j)/obB.getMass());
 }

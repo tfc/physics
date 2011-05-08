@@ -23,6 +23,10 @@ public:
 
     void refreshWorld(double dt);
 
+protected:
+    int collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB);
+    void applyImpulse(PhysicalObject &obA, PhysicalObject &obB);
+
 private:
     std::list<PhysicalObject*> objects;
     std::list<PhysicalForce*> forces;

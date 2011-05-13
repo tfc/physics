@@ -1,5 +1,6 @@
 #include "worldengine.h"
 
+#include <QTime>
 #include <math.h>
 
 WorldEngine::WorldEngine()
@@ -28,32 +29,59 @@ PhysicalForce* WorldEngine::addForce(PhysicalForce *newForce)
   return newForce;
 }
 
-#define RADIUSSQR 20*20
-#define COLFRIC 0.9
+#define ITOL 8
 void WorldEngine::refreshWorld(double dt)
 {
+  std::list<PhysicalObject*>::iterator it;
+  std::list<PhysicalObject*>::iterator it2;
+
   // Recalculate positions
-  for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); it++)
+  for (it = objects.begin(); it != objects.end(); it++)
     (*it)->refreshState(dt);
 
-  // Look for collisions and handle them
-  for (std::list<PhysicalObject*>::iterator outerIt = objects.begin(); outerIt != objects.end(); outerIt++) {
-    std::list<PhysicalObject*>::iterator innerIt = outerIt;
-    innerIt++;
-    PhysicalObject *a = *outerIt;
-    for (; innerIt != objects.end(); innerIt++) {
-      PhysicalObject *b = *innerIt;
+  // Apply new states
+  for (it = objects.begin(); it != objects.end(); it++)
+    (*it)->activateChange();
 
-      if (collisionOccured(*a, *b)) {
-        // Colliding!
-        applyImpulse(*a, *b);
-      }
+  for (it = objects.begin(); it != objects.end(); it++) {
+    for (it2 = it, it2++; it2 != objects.end(); it2++) {
+      PhysicalObject *a = *it;
+      PhysicalObject *b = *it2;
+      int tryAgain = 0;
+      unsigned int i = 0;
+      double curdt = dt;
+
+      if (collisionOccured(*a, *b) == 0) continue;
+      do {
+        ++i;
+        switch (collisionOccured(*a, *b)) {
+        case -1: // Overlap
+          tryAgain = 1;
+          curdt -= dt/(1 << i);
+          a->restoreState();
+          b->restoreState();
+          a->refreshState(curdt);
+          b->refreshState(curdt);
+          break;
+        case 0: // Not colliding yet
+          tryAgain = 1;
+          curdt += dt/(1 << i);
+          a->restoreState();
+          b->restoreState();
+          a->refreshState(curdt);
+          b->refreshState(curdt);
+          break;
+        case 1: // Normal collision
+          tryAgain=0;
+        }
+      } while (tryAgain && i < ITOL);
+      applyImpulse(*a, *b);
+      a->refreshSubStep(dt-curdt);
+      b->refreshSubStep(dt-curdt);
+      a->activateChange();
+      b->activateChange();
     }
   }
-
-  // Apply new states
-  for (std::list<PhysicalObject*>::iterator it = objects.begin(); it != objects.end(); it++)
-    (*it)->activateChange();
 }
 
 void WorldEngine::invite(class Inviter &host)
@@ -85,12 +113,10 @@ int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObjec
   // = skalar product between relSpeed and normalized distance vector
   vRelNorm = (v1 -v2) *d;
 
-  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.0)) {
-    return 1;
-  }
-  else if (s < -COL_TOLERANCE) {
-    return -1;
-  }
+  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.0))
+    return 1; // Normal collision
+  else if (s < -COL_TOLERANCE)
+    return -1; // overlapping
 
   return 0;
 }
@@ -104,8 +130,8 @@ void WorldEngine::applyImpulse(PhysicalObject &obA, PhysicalObject &obB)
   Vector3 relVelocity = obA.speed()-obB.speed();
 
   j = ( -(1+COL_RESTITUTION) * (relVelocity * colNormal))
-      / ((colNormal*colNormal)
-         * (1/obA.getMass() + 1/obB.getMass()));
+                      / ((colNormal*colNormal)
+                          * (1/obA.getMass() + 1/obB.getMass()));
 
   obA.setSpeed(obA.speed() +(colNormal*j)/obA.getMass());
   obB.setSpeed(obB.speed() -(colNormal*j)/obB.getMass());

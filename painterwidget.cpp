@@ -85,9 +85,9 @@ void PainterWidget::visit(class PhysicalObject &guest)
     painter->setBrush(circleBrush);
     painter->setPen(circlePen);
 
-    qreal circleRadius = 10;
+    qreal circleRadius = 9;
     painter->drawEllipse(QRectF(-circleRadius, -circleRadius, circleRadius*2, circleRadius*2));
-    painter->drawLine(0, 0, 0, 20);
+    //painter->drawLine(0, 0, 0, 12);
 
     painter->restore();
 }

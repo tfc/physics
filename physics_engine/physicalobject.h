@@ -14,6 +14,8 @@ public:
     PhysicalObject(double _mass, double x, double y);
 
     virtual void refreshState(double dt);
+    virtual void refreshSubStep(double dt);
+    virtual void restoreState();
     virtual void activateChange();
 
     virtual void invite(class Inviter &host) { host.visit(*this); }

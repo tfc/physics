@@ -4,49 +4,80 @@
 #include <iostream>
 
 PhysicalObject::PhysicalObject(double _mass, double x, double y) :
-    s(x, y, 0), bs(0, 0, 0), ts(x, y, 0), tbs(0, 0, 0), radius(10), mass(_mass), momInertia(2*_mass*10*10/5), forces()
+s(x, y, 0), bs(0, 0, 0), ts(x, y, 0), tbs(0, 0, 0), radius(9), mass(_mass),
+momInertia(2*_mass*9*9/5), forces()
 {
 }
 
 void PhysicalObject::refreshState(double dt)
 {
-    Vector3 m[4];
-    std::list<PhysicalForce*>::iterator it;
+  Vector3 m[4];
+  std::list<PhysicalForce*>::iterator it;
 
-    for (int n=0; n < 4; n++) {
-        for (it = forces.begin(); it != forces.end(); it++) {
-            m[n] += (*it)->approxM(this);
-        }
-        tv = v +m[n]*dt/2;
+  for (int n=0; n < 4; n++) {
+    for (it = forces.begin(); it != forces.end(); it++) {
+      m[n] += (*it)->approxM(this);
     }
+    tv = v +m[n]*dt/2;
+  }
 
-    Vector3 mFinal = (m[0] +m[1]*2 +m[2]*2 +m[3])/6;
+  Vector3 mFinal = (m[0] +m[1]*2 +m[2]*2 +m[3])/6;
 
-    ts = s +v*dt;
-    tv = v +Vector3(mFinal.val.x, mFinal.val.y)*dt;
+  ts = s +v*dt;
+  tv = v +Vector3(mFinal.val.x, mFinal.val.y)*dt;
 
-    setAngle((bs+bv*dt).val.z);
-    setAngleSpeed((bv +Vector3(0, 0, mFinal.val.dummy)*dt).val.z);
+  setAngle((bs+bv*dt).val.z);
+  setAngleSpeed((bv +Vector3(0, 0, mFinal.val.dummy)*dt).val.z);
+}
+
+void PhysicalObject::refreshSubStep(double dt)
+{
+  Vector3 _s, _v, _a, _bs, _bv, _ba;
+  _s = s;
+  _v = v;
+  _a = a;
+  _bs = bs;
+  _bv = bv;
+  _ba = ba;
+  activateChange();
+  refreshState(dt);
+  s = _s;
+  v = _v;
+  a = _a;
+  bs = _bs;
+  bv = _bv;
+  ba = _ba;
+}
+
+#define SWAPVEC(a, b) do {Vector3 tmp; tmp=a; a=b; b=tmp;} while(0)
+void PhysicalObject::restoreState()
+{
+  SWAPVEC(s, ts);
+  SWAPVEC(v, tv);
+  SWAPVEC(a, ta);
+  SWAPVEC(bs, tbs);
+  SWAPVEC(bv, tbv);
+  SWAPVEC(ba, tba);
 }
 
 void PhysicalObject::activateChange()
 {
-    s = ts;
-    v = tv;
-    a = ta;
-    bs = tbs;
-    bv = tbv;
-    ba = tba;
+  SWAPVEC(s, ts);
+  SWAPVEC(v, tv);
+  SWAPVEC(a, ta);
+  SWAPVEC(bs, tbs);
+  SWAPVEC(bv, tbv);
+  SWAPVEC(ba, tba);
 }
 
 void PhysicalObject::addForce(PhysicalForce* newForce)
 {
-    forces.push_back(newForce);
+  forces.push_back(newForce);
 }
 
 void PhysicalObject::removeForce(PhysicalForce* force)
 {
-    forces.remove(force);
+  forces.remove(force);
 }
 
 

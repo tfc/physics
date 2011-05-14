@@ -45,7 +45,7 @@
 GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
     : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), PainterWidget(world)
 {
-    setFixedSize(400, 400);
+    setFixedSize(800, 600);
     setAutoFillBackground(false);
 
     painter = new QPainter();

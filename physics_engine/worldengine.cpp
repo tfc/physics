@@ -29,7 +29,7 @@ PhysicalForce* WorldEngine::addForce(PhysicalForce *newForce)
   return newForce;
 }
 
-#define ITOL 8
+#define ITOL 4
 void WorldEngine::refreshWorld(double dt)
 {
   std::list<PhysicalObject*>::iterator it;
@@ -92,7 +92,7 @@ void WorldEngine::invite(class Inviter &host)
     (*it)->invite(host);
 }
 
-#define COL_TOLERANCE 0.5
+#define COL_TOLERANCE (0.005)
 int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB)
 {
   Vector3 d;
@@ -101,7 +101,7 @@ int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObjec
   double s; // distance of centers -radius of centers
   double vRelNorm;
 
-  r = (obA.getRadius() +obB.getRadius());
+  r = obA.getRadius() +obB.getRadius();
   d = obA.position() -obB.position();
   s = d.length() -r;
 
@@ -113,7 +113,7 @@ int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObjec
   // = skalar product between relSpeed and normalized distance vector
   vRelNorm = (v1 -v2) *d;
 
-  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.0))
+  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < -0.008))
     return 1; // Normal collision
   else if (s < -COL_TOLERANCE)
     return -1; // overlapping

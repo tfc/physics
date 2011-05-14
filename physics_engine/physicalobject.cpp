@@ -3,9 +3,9 @@
 
 #include <iostream>
 
-PhysicalObject::PhysicalObject(double _mass, double x, double y) :
-s(x, y, 0), bs(0, 0, 0), ts(x, y, 0), tbs(0, 0, 0), radius(9), mass(_mass),
-momInertia(2*_mass*9*9/5), forces()
+PhysicalObject::PhysicalObject(double _mass, double _radius, double x, double y) :
+s(x, y, 0), bs(0, 0, 0), ts(x, y, 0), tbs(0, 0, 0), radius(_radius), mass(_mass),
+momInertia(2*_mass*_radius*_radius/5), forces()
 {
 }
 

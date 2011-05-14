@@ -11,7 +11,7 @@ class PhysicalForce;
 class PhysicalObject : public Invitee
 {
 public:
-    PhysicalObject(double _mass, double x, double y);
+    PhysicalObject(double _mass, double radius, double x, double y);
 
     virtual void refreshState(double dt);
     virtual void refreshSubStep(double dt);

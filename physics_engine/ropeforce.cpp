@@ -48,7 +48,7 @@ Vector3 RopeForce::approxM(PhysicalObject *caller) const
 
     if (caller != obA) m = m*-1;
 
-    m.val.dummy +=  -caller->angleSpeed().val.z*0.003*friction;
+    m.val.dummy +=  -caller->angleSpeed().val.z*0.03*friction;
 
     return m;
 }

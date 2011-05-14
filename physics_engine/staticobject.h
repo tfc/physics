@@ -6,7 +6,7 @@
 class StaticObject : public PhysicalObject
 {
 public:
-    StaticObject(double x, double y);
+    StaticObject(double radius, double x, double y);
 
     virtual void refreshState(double) {}
 };

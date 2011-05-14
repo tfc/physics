@@ -61,23 +61,24 @@ PainterWidget::PainterWidget(WorldEngine *setWorld)
 
     textPen = QPen(Qt::gray);
     textFont.setPixelSize(50);
+
 }
 
 void PainterWidget::paint(QPaintEvent *event)
 {
     painter->fillRect(event->rect(), background);
-    painter->translate(200, 200);
+    painter->translate(0, 0);
 
     world->invite(*this);
 
     painter->setPen(textPen);
     painter->setFont(textFont);
-    painter->drawText(QRect(100, 100, 100, 100), Qt::AlignCenter, "Qt");
+    painter->drawText(QRect(700, 500, 100, 100), Qt::AlignCenter, "Qt");
 }
 
 void PainterWidget::visit(class PhysicalObject &guest)
 {
-    Vector3 pos = guest.position();
+    Vector3 pos = guest.position()*100;
 
     painter->save();
     painter->translate(pos.x(), pos.y());
@@ -85,9 +86,8 @@ void PainterWidget::visit(class PhysicalObject &guest)
     painter->setBrush(circleBrush);
     painter->setPen(circlePen);
 
-    qreal circleRadius = 9;
+    qreal circleRadius = guest.getRadius()*100;
     painter->drawEllipse(QRectF(-circleRadius, -circleRadius, circleRadius*2, circleRadius*2));
-    //painter->drawLine(0, 0, 0, 12);
 
     painter->restore();
 }
@@ -96,8 +96,8 @@ void PainterWidget::visit(class RopeForce &guest)
 {
     QPen pen(Qt::darkGreen, 3, Qt::SolidLine);
 
-    Vector3 pos1 = guest.getRopeHookPosA();
-    Vector3 pos2 = guest.getRopeHookPosB() -pos1;
+    Vector3 pos1 = guest.getRopeHookPosA()*100;
+    Vector3 pos2 = (guest.getRopeHookPosB() -pos1/100)*100;
 
     painter->save();
     painter->setPen(pen);

@@ -1,6 +1,6 @@
 #include "staticobject.h"
 
-StaticObject::StaticObject(double x, double y)
-    : PhysicalObject(100000, x, y)
+StaticObject::StaticObject(double radius, double x, double y)
+    : PhysicalObject(100000, radius, x, y)
 {
 }

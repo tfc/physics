@@ -63,6 +63,11 @@ Vector3 Vector3::rotatedZ(const double angle) const
   return Vector3(val.x*cos(angle) -val.y*sin(angle), val.x*sin(angle) +val.y*cos(angle), val.z);
 }
 
+Vector3 Vector3::perpendicular() const
+{
+  return Vector3(-val.y, val.x, val.y, val.z);
+}
+
 Vector3& Vector3::operator = (const Vector3& vector)
 {
   val.x = vector.val.x;

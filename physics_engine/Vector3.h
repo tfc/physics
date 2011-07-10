@@ -19,6 +19,7 @@ public:
   double z() const;
 
   Vector3 rotatedZ(const double angle) const;
+  Vector3 perpendicular() const;
 
   Vector3 operator * (const double scalar);
   Vector3 operator *= (const double scalar);

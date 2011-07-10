@@ -39,7 +39,9 @@ Vector3 RopeForce::approxM(PhysicalObject *caller) const
     dsm.normalize();
     dvm.normalize();
 
-    m = dsm*((sprConst * skalarDiff) +(dv*dsm)*friction)/mass;
+    m = dsm *sprConst *skalarDiff /mass; // Rope force
+    m += dsm *(dv *dsm) *friction /mass; // Friction in pull-direction
+    m += dsm.perpendicular() *(dv *dsm.perpendicular()) *friction /mass *0.001;
 
     // m*mass = Force at offset position
     // r x F = torque

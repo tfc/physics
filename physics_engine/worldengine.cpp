@@ -29,7 +29,7 @@ PhysicalForce* WorldEngine::addForce(PhysicalForce *newForce)
   return newForce;
 }
 
-#define ITOL 4
+#define ITOL 10
 void WorldEngine::refreshWorld(double dt)
 {
   std::list<PhysicalObject*>::iterator it;
@@ -47,34 +47,19 @@ void WorldEngine::refreshWorld(double dt)
     for (it2 = it, it2++; it2 != objects.end(); it2++) {
       PhysicalObject *a = *it;
       PhysicalObject *b = *it2;
-      int tryAgain = 0;
-      unsigned int i = 0;
       double curdt = dt;
 
-      if (collisionOccured(*a, *b) == 0) continue;
-      do {
-        ++i;
-        switch (collisionOccured(*a, *b)) {
-        case -1: // Overlap
-          tryAgain = 1;
-          curdt -= dt/(1 << i);
-          a->restoreState();
-          b->restoreState();
-          a->refreshState(curdt);
-          b->refreshState(curdt);
-          break;
-        case 0: // Not colliding yet
-          tryAgain = 1;
-          curdt += dt/(1 << i);
-          a->restoreState();
-          b->restoreState();
-          a->refreshState(curdt);
-          b->refreshState(curdt);
-          break;
-        case 1: // Normal collision
-          tryAgain=0;
-        }
-      } while (tryAgain && i < ITOL);
+      switch (collisionOccured(*a, *b)) {
+      case 0:
+        continue;
+      case -1:
+        // Resolve contact before overlap
+        a->restoreState();
+        b->restoreState();
+        curdt = rewindOverlap(*a, *b);
+        a->refreshState(curdt);
+        b->refreshState(curdt);
+      }
       applyImpulse(*a, *b);
       a->refreshSubStep(dt-curdt);
       b->refreshSubStep(dt-curdt);
@@ -92,7 +77,7 @@ void WorldEngine::invite(class Inviter &host)
     (*it)->invite(host);
 }
 
-#define COL_TOLERANCE (0.005)
+#define COL_TOLERANCE (0.0000001)
 int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB)
 {
   Vector3 d;
@@ -113,12 +98,21 @@ int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObjec
   // = skalar product between relSpeed and normalized distance vector
   vRelNorm = (v1 -v2) *d;
 
-  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < -0.008))
+  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.00000001))
     return 1; // Normal collision
   else if (s < -COL_TOLERANCE)
     return -1; // overlapping
 
   return 0;
+}
+
+double WorldEngine::rewindOverlap(PhysicalObject &obA, PhysicalObject &obB)
+{
+  double t;
+
+  t = ((obB.position()-obA.position()).length() -(obA.getRadius()+obB.getRadius()))/(obB.speed()-obA.speed()).length();
+
+  return t;
 }
 
 #define COL_RESTITUTION 0.7

@@ -26,6 +26,7 @@ public:
 protected:
     int collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB);
     void applyImpulse(PhysicalObject &obA, PhysicalObject &obB);
+    double rewindOverlap(PhysicalObject &obA, PhysicalObject &obB);
 
 private:
     std::list<PhysicalObject*> objects;

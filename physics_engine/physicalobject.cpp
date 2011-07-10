@@ -33,6 +33,7 @@ void PhysicalObject::refreshState(double dt)
 void PhysicalObject::refreshSubStep(double dt)
 {
   Vector3 _s, _v, _a, _bs, _bv, _ba;
+  if (dt == 0) return;
   _s = s;
   _v = v;
   _a = a;

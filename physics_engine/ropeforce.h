@@ -14,7 +14,7 @@ public:
 
     virtual void invite(class Inviter &host) { host.visit(*this); }
 
-    virtual Vector3 approxM(PhysicalObject *caller) const;
+    virtual Vector3 approxM(PhysicalObject *caller);
 
     PhysicalObject* getObjA() { return obA; }
     PhysicalObject* getObjB() { return obB; }
@@ -36,6 +36,11 @@ protected:
     double len;
     double sprConst;
     double friction;
+
+    // Caching
+    Vector3 m;
+    bool cached;
+    bool noPull;
 };
 
 #endif // ROPEFORCE_H

@@ -9,7 +9,7 @@ SpringForce::SpringForce(double len, double sprConst, double fric, PhysicalObjec
     obB->addForce(this);
 }
 
-Vector3 SpringForce::approxM(PhysicalObject *caller) const
+Vector3 SpringForce::approxM(PhysicalObject *caller)
 {
     Vector3 m;
 

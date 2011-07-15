@@ -9,7 +9,7 @@ GravitationForce::GravitationForce(double gravConst, double xdir, double ydir, d
     if (obj) obj->addForce(this);
 }
 
-Vector3 GravitationForce::approxM(PhysicalObject *) const
+Vector3 GravitationForce::approxM(PhysicalObject *)
 {
     return gVec;
 }

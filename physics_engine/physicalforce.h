@@ -11,7 +11,7 @@ public:
 
     virtual void invite(class Inviter &host) { host.visit(*this); }
 
-    virtual Vector3 approxM(PhysicalObject *caller) const = 0;
+    virtual Vector3 approxM(PhysicalObject *caller) = 0;
 };
 
 #endif // PHYSICALFORCE_H

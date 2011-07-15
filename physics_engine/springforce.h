@@ -10,7 +10,7 @@ class SpringForce : public PhysicalForce
 public:
     SpringForce(double len, double sprConst, double friction, PhysicalObject* na, PhysicalObject* nb);
 
-    virtual Vector3 approxM(PhysicalObject *caller) const;
+    virtual Vector3 approxM(PhysicalObject *caller);
 
 private:
     PhysicalObject *obA;

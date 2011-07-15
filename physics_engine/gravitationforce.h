@@ -10,7 +10,7 @@ class GravitationForce : public PhysicalForce
 public:
     GravitationForce(double gravConst, double xdir, double ydir, double zdir, PhysicalObject *obj);
 
-    virtual Vector3 approxM(PhysicalObject *caller) const;
+    virtual Vector3 approxM(PhysicalObject *caller);
 private:
     PhysicalObject *obj;
     double g;

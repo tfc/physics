@@ -9,6 +9,7 @@ public:
     StaticObject(double radius, double x, double y);
 
     virtual void refreshState(double) {}
+    virtual void refreshSubStep(double dt) {}
 };
 
 #endif // STATICOBJECT_H

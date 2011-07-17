@@ -77,31 +77,29 @@ void WorldEngine::invite(class Inviter &host)
     (*it)->invite(host);
 }
 
-#define COL_TOLERANCE (0.0000001)
+#define COL_TOLERANCE (0.01)
 int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObject &obB)
 {
   Vector3 d;
-  Vector3 v1, v2;
   double r; // radius of both centers
   double s; // distance of centers -radius of centers
-  double vRelNorm;
+  double vRel;
 
-  r = obA.getRadius() +obB.getRadius();
-  d = obA.position() -obB.position();
+  r = obB.getRadius() +obA.getRadius();
+  d = obB.position() -obA.position();
   s = d.length() -r;
-
   d.normalize();
-  v1 = obA.speed();
-  v2 = obB.speed();
 
   // Relative speed (normalized)
   // = skalar product between relSpeed and normalized distance vector
-  vRelNorm = (v1 -v2) *d;
+  vRel = (obB.speed() -obA.speed()) *d /(s+r);
 
-  if ((fabs(s) <= COL_TOLERANCE) && (vRelNorm < 0.00000001))
+  if ((fabs(s) <= COL_TOLERANCE) && (vRel <= 0.0))
     return 1; // Normal collision
-  else if (s < -COL_TOLERANCE)
+  else if (s < -COL_TOLERANCE) {
+    if (vRel > 0.0) std::cout << "Error. penetrating and moving away." << std::endl;
     return -1; // overlapping
+  }
 
   return 0;
 }

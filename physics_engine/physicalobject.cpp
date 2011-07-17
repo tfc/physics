@@ -4,7 +4,11 @@
 #include <iostream>
 
 PhysicalObject::PhysicalObject(double _mass, double _radius, double x, double y) :
-s(x, y, 0), bs(0, 0, 0), ts(x, y, 0), tbs(0, 0, 0), radius(_radius), mass(_mass),
+s(x, y, 0), v(0, 0, 0), a(0, 0, 0),
+bs(0, 0, 0), bv(0, 0, 0), ba(0, 0, 0),
+ts(x, y, 0), tv(0, 0, 0), ta(0, 0, 0),
+tbs(0, 0, 0), tbv(0, 0, 0), tba(0, 0, 0),
+radius(_radius), mass(_mass),
 momInertia(2*_mass*_radius*_radius/5), forces()
 {
 }

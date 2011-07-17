@@ -39,8 +39,8 @@ Vector3 RopeForce::approxM(PhysicalObject *caller)
       dvm.normalize();
 
       m = dsm *sprConst *skalarDiff; // Rope force
-      m += dsm *(dv *dsm) *friction; // Friction in pull-direction
-      m += dsm.perpendicular() *(dv *dsm.perpendicular()) *friction *0.001; // Friction against shaking
+      if (dvm*dsm > 0) m += dsm *(dv *dsm) *friction; // Friction in PULL-direction
+      m += dsm.perpendicular() *(dv *dsm.perpendicular()) *friction *0.01; // Friction against shaking
     }
 
     if (noPull) {

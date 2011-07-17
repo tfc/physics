@@ -2,6 +2,7 @@
 #define WORLDENGINE_H
 
 #include <list>
+#include <pthread.h>
 
 #include "physicalobject.h"
 #include "physicalforce.h"
@@ -31,6 +32,7 @@ protected:
 private:
     std::list<PhysicalObject*> objects;
     std::list<PhysicalForce*> forces;
+    pthread_mutex_t refresh_mutex;
 };
 
 #endif // WORLDENGINE_H

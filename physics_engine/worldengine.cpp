@@ -5,6 +5,7 @@
 
 WorldEngine::WorldEngine()
 {
+  pthread_mutex_init(&refresh_mutex, NULL);
 }
 
 PhysicalObject* WorldEngine::addObject(PhysicalObject *newObj)
@@ -34,6 +35,12 @@ void WorldEngine::refreshWorld(double dt)
 {
   std::list<PhysicalObject*>::iterator it;
   std::list<PhysicalObject*>::iterator it2;
+
+  int ret = pthread_mutex_trylock(&refresh_mutex);
+  if (ret) {
+    std::cerr << "BUG: Mutex still locked!!!" << std::endl;
+    return;
+  }
 
   // Recalculate positions
   for (it = objects.begin(); it != objects.end(); it++)
@@ -67,6 +74,8 @@ void WorldEngine::refreshWorld(double dt)
       b->activateChange();
     }
   }
+
+  pthread_mutex_unlock(&refresh_mutex);
 }
 
 void WorldEngine::invite(class Inviter &host)

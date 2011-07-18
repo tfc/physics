@@ -63,9 +63,12 @@ void WorldEngine::refreshWorld(double dt)
         // Resolve contact before overlap
         a->restoreState();
         b->restoreState();
+        if (collisionOccured(*a, *b)) {
+          std::cerr << "Blablabla!" << std::endl;
+        }
         curdt = rewindOverlap(*a, *b);
-        a->refreshState(curdt);
-        b->refreshState(curdt);
+        a->refreshSubStep(curdt);
+        b->refreshSubStep(curdt);
       }
       applyImpulse(*a, *b);
       a->refreshSubStep(dt-curdt);

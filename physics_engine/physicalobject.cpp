@@ -45,7 +45,12 @@ void PhysicalObject::refreshSubStep(double dt)
   _bv = bv;
   _ba = ba;
   activateChange();
-  refreshState(dt);
+
+  ts = s +v*dt;
+  tv = v;
+  setAngle((bs+bv*dt).val.z);
+  setAngleSpeed(bv.val.z);
+
   s = _s;
   v = _v;
   a = _a;

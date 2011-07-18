@@ -43,7 +43,8 @@
 
 
 GLWidget::GLWidget(WorldEngine *world, QWidget *parent)
-    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), PainterWidget(world)
+    : QGLWidget(QGLFormat(QGL::SampleBuffers), parent), PainterWidget(world),
+      mouseObj(0)
 {
     setFixedSize(800, 600);
     setAutoFillBackground(false);
@@ -66,3 +67,11 @@ void GLWidget::paintEvent(QPaintEvent *event)
     painter->end();
 }
 
+void GLWidget::mouseMoveEvent(QMouseEvent * event)
+{
+  if (mouseObj) {
+    mouseObj->setPosition(((double)event->x())/100.0, ((double)event->y())/100.0);
+    mouseObj->activateChange();
+    mouseObj->setPosition(((double)event->x())/100.0, ((double)event->y())/100.0);
+  }
+}

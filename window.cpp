@@ -70,6 +70,8 @@ Window::Window()
   PhysicalObject *b1, *b2;
 
   b1 = world.addObject(new StaticObject(0.09, 0, 1.5));
+  openGL->setMouseObj(b1);
+
   for (int i=1; i<40; i+=2) {
     b2 = world.addObject(new PhysicalObject(MASS, 0.09, 2*0.1*i, 0.5));
     world.addForce(new GravitationForce(9.81, 0, 1, 0, b2));

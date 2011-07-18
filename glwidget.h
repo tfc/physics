@@ -55,6 +55,8 @@ class GLWidget : public QGLWidget, public PainterWidget
 
 public:
     GLWidget(WorldEngine *setWorld, QWidget *parent);
+    virtual void mouseMoveEvent (QMouseEvent * event);
+    void setMouseObj(PhysicalObject *newMouseObj) {mouseObj = newMouseObj;}
 
 public slots:
     void animate();
@@ -63,6 +65,7 @@ protected:
     void paintEvent(QPaintEvent *event);
 
 private:
+    PhysicalObject *mouseObj;
 };
 
 #endif

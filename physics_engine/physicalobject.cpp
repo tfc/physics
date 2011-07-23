@@ -36,27 +36,13 @@ void PhysicalObject::refreshState(double dt)
 
 void PhysicalObject::refreshSubStep(double dt)
 {
-  Vector3 _s, _v, _a, _bs, _bv, _ba;
   if (dt == 0) return;
-  _s = s;
-  _v = v;
-  _a = a;
-  _bs = bs;
-  _bv = bv;
-  _ba = ba;
-  activateChange();
 
   ts = s +v*dt;
   tv = v;
   setAngle((bs+bv*dt).val.z);
   setAngleSpeed(bv.val.z);
-
-  s = _s;
-  v = _v;
-  a = _a;
-  bs = _bs;
-  bv = _bv;
-  ba = _ba;
+  activateChange();
 }
 
 #define SWAPVEC(a, b) do {Vector3 tmp; tmp=a; a=b; b=tmp;} while(0)

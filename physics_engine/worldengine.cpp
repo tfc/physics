@@ -80,8 +80,6 @@ void WorldEngine::refreshWorld(double dt)
       applyImpulse(*a, *b);
       a->refreshSubStep(dt-curdt);
       b->refreshSubStep(dt-curdt);
-      a->activateChange();
-      b->activateChange();
     }
   }
 
@@ -152,4 +150,6 @@ void WorldEngine::applyImpulse(PhysicalObject &obA, PhysicalObject &obB)
 
   obA.setSpeed(obA.speed() +(colNormal*j)/obA.getMass());
   obB.setSpeed(obB.speed() -(colNormal*j)/obB.getMass());
+  obA.activateChange();
+  obB.activateChange();
 }

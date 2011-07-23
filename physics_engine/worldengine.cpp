@@ -64,9 +64,16 @@ void WorldEngine::refreshWorld(double dt)
         a->restoreState();
         b->restoreState();
         if (collisionOccured(*a, *b)) {
-          std::cerr << "Blablabla!" << std::endl;
+          // If they are still colliding at the last step
+          // - what shouldn't happen -
+          // Just set curdt to 0 and resolve like any collision.
+          curdt = 0;
         }
-        curdt = rewindOverlap(*a, *b);
+        else {
+          curdt = rewindOverlap(*a, *b);
+          if (curdt > dt) curdt = dt;
+          if (curdt < 0) curdt = 0;
+        }
         a->refreshSubStep(curdt);
         b->refreshSubStep(curdt);
       }
@@ -109,7 +116,12 @@ int WorldEngine::collisionOccured(const PhysicalObject &obA, const PhysicalObjec
   if ((fabs(s) <= COL_TOLERANCE) && (vRel <= 0.0))
     return 1; // Normal collision
   else if (s < -COL_TOLERANCE) {
-    if (vRel > 0.0) std::cout << "Error. penetrating and moving away." << std::endl;
+    if (vRel > 0.0) {
+      // Special case: Overlapping and moving apart.
+      // Don't do anything, since this should not have happened,
+      // but with just ignoring that it will fix itself.
+      return 0;
+    }
     return -1; // overlapping
   }
 
@@ -120,7 +132,8 @@ double WorldEngine::rewindOverlap(PhysicalObject &obA, PhysicalObject &obB)
 {
   double t;
 
-  t = ((obB.position()-obA.position()).length() -(obA.getRadius()+obB.getRadius()))/(obB.speed()-obA.speed()).length();
+  t = (obB.position()-obA.position()).length() -(obA.getRadius()+obB.getRadius());
+  t /= (obB.speed()-obA.speed()).length();
 
   return t;
 }

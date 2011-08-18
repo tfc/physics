@@ -18,11 +18,15 @@ void PhysicalObject::refreshState(double dt)
   Vector3 m[4];
   std::list<PhysicalForce*>::iterator it;
 
+  setSpeed(v);
+  setAngleSpeed(bv.val.z);
+
   for (int n=0; n < 4; n++) {
     for (it = forces.begin(); it != forces.end(); it++) {
       m[n] += (*it)->approxM(this);
     }
-    tv = v +m[n]*dt/2;
+    setSpeed(v +m[n]*dt/2);
+    setAngleSpeed((bv +Vector3(0, 0, m[n].val.dummy)*dt/2).val.z);
   }
 
   Vector3 mFinal = (m[0] +m[1]*2 +m[2]*2 +m[3])/6;

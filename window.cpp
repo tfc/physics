@@ -50,8 +50,8 @@
 #include <iostream>
 
 #define DT 0.001
-#define ROPEFRICTION 800
-#define SPRCONST 1000
+#define ROPEFRICTION 1000
+#define SPRCONST 1500
 #define MASS 1
 
 Window::Window()
@@ -72,7 +72,7 @@ Window::Window()
   b1 = world.addObject(new StaticObject(0.09, 0, 1.5));
   openGL->setMouseObj(b1);
 
-  for (int i=1; i<40; i+=2) {
+  for (int i=1; i<80; i+=2) {
     b2 = world.addObject(new PhysicalObject(MASS, 0.09, 2*0.1*i, 0.5));
     world.addForce(new GravitationForce(9.81, 0, 1, 0, b2));
     world.addForce(new RopeForce(0.1, SPRCONST, ROPEFRICTION, b1, b2, 0.09, 0, -0.09, 0));

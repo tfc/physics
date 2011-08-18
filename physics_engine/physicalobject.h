@@ -32,6 +32,7 @@ public:
     Vector3 tspeed() const { return tv; }
     Vector3 taccel() const { return ta; }
     Vector3 tangle() const { return tbs; }
+    Vector3 tangleSpeed() const { return bv; }
     double getRadius() const { return radius; }
     double getMass() const { return mass; }
     double getMomInertia() const { return momInertia; }

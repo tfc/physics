@@ -32,7 +32,7 @@ Vector3 RopeForce::approxM(PhysicalObject *caller)
         return Vector3();
       }
 
-      Vector3 dv = obB->tspeed()-obA->tspeed();
+      Vector3 dv = obB->speed()-obA->speed();
       Vector3 dvm = dv;
 
       dsm.normalize();
